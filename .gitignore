@@ -1,0 +1,55 @@
+# Python-related
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# FastAPI-related
+*.log
+*.db
+instance/
+*.sqlite3
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Testing and coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+*.cover
+*.py,cover
+.cache
+pytest_cache/
+nosetests.xml
+coverage.xml
+*.pytest_cache
+
+# Docker
+*.pid
+*.tar
+*.bak
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Build-related
+build/
+dist/
+*.egg-info/
+.eggs/
