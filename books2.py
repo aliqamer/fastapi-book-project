@@ -1,5 +1,6 @@
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import Path,Query, FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from starlette import status
 from typing import Optional
 
 app = FastAPI()
@@ -35,12 +36,28 @@ BOOKS = [
     Book(id=7, title="Book Seven", author="Author G", description="Description of Book Seven", rating=4),
 ]
 
-@app.get("/books")
+@app.get("/books", status_code=status.HTTP_200_OK, tags=["Books"])
 async def get_all_books():
     return BOOKS
 
+@app.get("/books/{book_id}")
+async def get_book(book_id: int = Path(gt=0)):
+    for book in BOOKS:
+        if book.id == book_id:
+            return book
+    raise HTTPException(status_code=404, detail="Book not found")
 
-@app.post("/create-book")
+@app.get("/books/")
+async def get_book_by_rating(rating: int = Query(gt=0, lt=6)):
+    books_to_return = []
+    for book in BOOKS:
+        if book.rating == rating:
+            books_to_return.append(book)
+    if len(books_to_return) == 0:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return books_to_return
+
+@app.post("/create-book", status_code=status.HTTP_201_CREATED, tags=["Books"])
 async def create_book(book_request : BookRequest):
     new_book = Book(**book_request.model_dump())
     print(type(new_book))
@@ -54,3 +71,42 @@ def find_book_id(book: Book):
     else:
         book.id = 1
     return book
+
+
+@app.put("/books/update_book", status_code=status.HTTP_204_NO_CONTENT)
+async def update_book(book_request: BookRequest):
+    book_changed = False
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_request.id:
+            BOOKS[i] = book_request
+            book_changed = True
+            break
+    if not book_changed:
+        raise HTTPException(status_code=404, detail="Book not found")
+    
+
+# async def update_book(book_request: BookRequest):
+#     for i in range(len(BOOKS)):
+#         if BOOKS[i].id == book_request.id:
+#             BOOKS[i] = book_request
+#             return BOOKS[i]
+#     raise HTTPException(status_code=404, detail="Book not found")
+
+# async def update_book(book_request: BookRequest):
+#     for book in BOOKS:
+#         if book.id == book_request.id:
+#             book.title = book_request.title
+#             book.author = book_request.author
+#             book.description = book_request.description
+#             book.rating = book_request.rating
+#             return book
+#     raise HTTPException(status_code=404, detail="Book not found")   
+
+@app.delete("/books/{book_id}")
+async def delete_book(book_id: int):
+    for i in range(len(BOOKS)):
+        if BOOKS[i].id == book_id:
+            BOOKS.pop(i)
+            return {"message": "Book deleted successfully"}
+    raise HTTPException(status_code=404, detail="Book not found")
+
