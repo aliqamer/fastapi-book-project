@@ -7,6 +7,7 @@ class Todos(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     description = Column(String)
+    priority = Column(Integer, default=1)  # Default priority is set to 1
     completed = Column(Boolean, default=False)
 
     # def __repr__(self):
