@@ -27,3 +27,5 @@ pip install python-jose[cryptography]
 for postgreSQL dependency
 
 > pip install psycopg2-binary
+
+> pip install pymysql

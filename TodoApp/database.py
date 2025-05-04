@@ -7,9 +7,12 @@ from sqlalchemy.ext.declarative import declarative_base
 # engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})  
 
 # PostgreSQL database URL
-SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:postgres@localhost:5433/TodoApplicationDatabase'  # Replace with your PostgreSQL credentials
-engine = create_engine(SQLALCHEMY_DATABASE_URL)  
+# SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:postgres@localhost:5433/TodoApplicationDatabase'  # Replace with your PostgreSQL credentials
+# engine = create_engine(SQLALCHEMY_DATABASE_URL)  
 
+# MySQL database URL
+SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:root@localhost:3306/todoapplicationdatabase'  # Replace with your MySQL credentials
+engine = create_engine(SQLALCHEMY_DATABASE_URL)  
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
