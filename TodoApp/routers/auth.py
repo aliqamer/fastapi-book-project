@@ -2,8 +2,8 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Path
 from pydantic import BaseModel
-from database import SessionLocal
-from models import Users
+from ..database import SessionLocal
+from ..models import Users
 from starlette import status
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
